@@ -1,0 +1,24 @@
+# DeepSeek-OCR Dependencies
+# Tested on Python 3.12.9 + CUDA 11.8
+
+torch==2.6.0
+transformers==4.46.3
+tokenizers==0.20.3
+einops
+addict
+easydict
+flash-attn==2.7.3
+
+# Additional dependencies for document processing
+Pillow>=10.0.0
+pdf2image>=1.16.0
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# Quality evaluation
+jiwer>=3.0.0  # For WER/CER calculation
+editdistance>=0.6.0
+
+# Utilities
+pyyaml>=6.0
+requests>=2.31.0

@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+deepseek_venv/
+.venv/
+
+# Results and outputs
+results/
+test_results/
+*.out
+*.err
+slurm-*.out
+*.log
+
+# PDFs and large files
+*.pdf
+*.PDF
+test_documents/*.pdf
+
+# Model cache
+.cache/
+models/
+*.bin
+*.safetensors
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Evaluation outputs
+*.yaml
+*.json
+comparison_report.txt
+evaluation_report.txt
+
+# Exception: Keep config files
+!config/*.yaml
+!*.example.json

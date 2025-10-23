@@ -1,0 +1,77 @@
+# DeepSeek-OCR Testing Configuration
+
+# Model Configuration
+model:
+  name: "deepseek-ai/DeepSeek-OCR"
+  device: "cuda"
+
+  # Size variants (choose one)
+  # Tiny: 448, Small: 672, Base: 1024, Large: 1536
+  base_size: 1024
+  image_size: 1024
+
+  # Alternative: Gundam configuration
+  # base_size: 672
+  # image_size: 1344
+  # crop_mode: true
+
+# Processing Configuration
+processing:
+  # OCR prompts to test
+  prompts:
+    - "Free OCR"
+    - "Convert document to markdown"
+
+  # PDF conversion quality
+  dpi: 300
+
+  # Generation parameters
+  max_new_tokens: 8192
+  do_sample: false
+
+# Directories (relative to project root or absolute)
+directories:
+  pdf_input: "~/projects/def-jic823/olmocr/canadiana_pdfs"
+  results_base: "~/projects/def-jic823/deepseek-ocr-test/results"
+  test_documents: "./test_documents"
+
+# SLURM Configuration for Nibi
+slurm:
+  account: "def-jic823"
+  partition: "gpu"
+  time: "04:00:00"
+  cpus_per_task: 8
+  mem: "64G"
+  gpus_per_node: "h100:1"
+
+# Virtual Environment
+environment:
+  venv_path: "~/projects/def-jic823/deepseek_venv"
+  modules:
+    - "StdEnv/2023"
+    - "gcc/12.3"
+    - "cuda/12.2"
+    - "python/3.12"
+
+# Evaluation Configuration
+evaluation:
+  # Models to compare (add paths to OCR results)
+  compare_models:
+    deepseek: "results/deepseek/"
+    olmocr: "results/olmocr/"
+    marker: "results/marker/"
+
+  # Metrics to compute
+  metrics:
+    - "character_error_rate"
+    - "word_error_rate"
+    - "text_statistics"
+    - "processing_speed"
+
+  # Ground truth directory (if available)
+  ground_truth_dir: null
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
