@@ -28,6 +28,23 @@ slurm-*.out
 *.PDF
 test_documents/*.pdf
 
+# Image files (BL newspapers, etc.)
+*.tif
+*.tiff
+*.TIF
+*.TIFF
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
+*.png
+*.PNG
+
+# OCR data directories
+ocr_bldata/
+*/Ground Truth/
+*/OCR Text/
+
 # Model cache
 .cache/
 models/
