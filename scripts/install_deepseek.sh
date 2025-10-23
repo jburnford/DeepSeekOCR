@@ -76,6 +76,9 @@ pip install --no-index pyyaml requests || pip install pyyaml requests
 # These might not be in wheelhouse
 pip install jiwer editdistance
 
+# DeepSeek-OCR requires matplotlib
+pip install --no-index matplotlib || pip install matplotlib
+
 # Verify installation
 echo ""
 echo "=========================================="
