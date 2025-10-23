@@ -13,7 +13,7 @@ from typing import Dict, List, Any
 from datetime import datetime
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModel, AutoTokenizer
 from PIL import Image
 from pdf2image import convert_from_path
 import yaml
@@ -47,12 +47,13 @@ class DeepSeekOCRProcessor:
             trust_remote_code=True
         )
 
-        self.model = AutoModelForCausalLM.from_pretrained(
+        self.model = AutoModel.from_pretrained(
             model_name,
-            torch_dtype=torch.bfloat16,
+            _attn_implementation='flash_attention_2',
             trust_remote_code=True,
-            device_map="auto"
-        ).eval()
+            use_safetensors=True
+        )
+        self.model = self.model.eval().to(device).to(torch.bfloat16)
 
         print("Model loaded successfully!")
 
