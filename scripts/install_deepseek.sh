@@ -66,8 +66,8 @@ echo "[7/7] Installing remaining dependencies..."
 # Try Alliance wheelhouse first, fallback to PyPI if needed
 echo "Attempting to install from Alliance wheelhouse first..."
 
-# These should be available in wheelhouse
-pip install --no-index transformers || pip install transformers==4.46.3
+# DeepSeek-OCR requires exactly transformers 4.46.3
+pip install --no-index transformers==4.46.3 || pip install transformers==4.46.3
 pip install --no-index tokenizers || pip install tokenizers==0.20.3
 pip install --no-index einops addict easydict || pip install einops addict easydict
 pip install --no-index Pillow pdf2image numpy tqdm || pip install Pillow pdf2image numpy tqdm
