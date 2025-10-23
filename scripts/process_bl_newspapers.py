@@ -10,6 +10,8 @@ import time
 from pathlib import Path
 from typing import Dict, Any, List
 from datetime import datetime
+import tempfile
+import os
 
 import torch
 from transformers import AutoModel, AutoTokenizer
@@ -42,49 +44,34 @@ class BLNewspaperProcessor:
 
         print(f"Model loaded on {device}!")
 
-    def process_image(self, image_path: Path, prompt: str = "Free OCR") -> Dict[str, Any]:
-        """Process a single image."""
+    def process_image(self, image_path: Path) -> Dict[str, Any]:
+        """Process a single image using DeepSeek-OCR's infer() method."""
         start_time = time.time()
 
-        # Load image
-        image = Image.open(image_path)
+        # Use DeepSeek-OCR's built-in infer() method with proper prompt format
+        prompt = "<image>\n<|grounding|>Convert the document to markdown. "
 
-        # Prepare inputs
-        messages = [{"role": "user", "content": [
-            {"type": "image", "image": image},
-            {"type": "text", "text": prompt}
-        ]}]
-
-        # Tokenize
-        inputs = self.tokenizer.apply_chat_template(
-            messages,
-            add_generation_prompt=True,
-            return_dict=True,
-            return_tensors="pt"
-        ).to(self.device)
-
-        # Generate
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=8192,
-                do_sample=False,
-                pad_token_id=self.tokenizer.eos_token_id
+        # Create temporary output directory for this image
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            # Call model.infer() as documented
+            result = self.model.infer(
+                self.tokenizer,
+                prompt=prompt,
+                image_file=str(image_path),
+                output_path=tmp_dir,
+                base_size=self.base_size,
+                image_size=self.base_size,
+                crop_mode=False,
+                save_results=False,
+                test_compress=False
             )
-
-        # Decode
-        text = self.tokenizer.decode(
-            outputs[0][inputs['input_ids'].shape[1]:],
-            skip_special_tokens=True
-        )
 
         elapsed = time.time() - start_time
 
         return {
-            "text": text.strip(),
+            "text": result if isinstance(result, str) else str(result),
             "processing_time": elapsed,
-            "image_path": str(image_path),
-            "prompt": prompt
+            "image_path": str(image_path)
         }
 
 
@@ -242,6 +229,8 @@ def main():
 
         except Exception as e:
             print(f"  ❌ Error processing {image_path.name}: {e}")
+            import traceback
+            traceback.print_exc()
             continue
 
     # Compute aggregate statistics

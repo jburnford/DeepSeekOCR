@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=deepseek_bl_news
 #SBATCH --account=def-jic823
-#SBATCH --time=04:00:00
+#SBATCH --time=00:30:00
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --gpus-per-node=h100:1
@@ -63,7 +63,8 @@ cd "$REPO_DIR"
 echo "Starting DeepSeek-OCR processing..."
 echo "=========================================="
 
-# Test with different model sizes for comparison
+# Start with small test (10 images) to verify it works
+# Remove --limit to process all 600 images
 for BASE_SIZE in 1024; do
     echo ""
     echo "Testing with base_size=$BASE_SIZE"
@@ -74,7 +75,8 @@ for BASE_SIZE in 1024; do
         --ground-truth "$GT_DIR" \
         --output "$OUTPUT_DIR" \
         --base-size $BASE_SIZE \
-        --device cuda
+        --device cuda \
+        --limit 20
 
     echo "Completed base_size=$BASE_SIZE"
 done
