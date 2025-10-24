@@ -54,7 +54,7 @@ echo ""
 
 # Load Python environment
 module load python/3.11
-source ~/deepseek_env/bin/activate
+source ~/projects/def-jic823/deepseek_venv/bin/activate
 
 echo "Python environment:"
 python --version
