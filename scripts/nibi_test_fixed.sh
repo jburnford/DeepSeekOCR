@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=deepseek_fixed
 #SBATCH --account=def-jic823
-#SBATCH --time=02:00:00
+#SBATCH --time=04:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -71,13 +71,12 @@ echo ""
 
 cd "$WORK_DIR"
 
-# Test with 20 images (same as original test for comparison)
+# Process full dataset (all 600 images)
 python3 scripts/process_bl_newspapers_fixed.py \
     --images "$IMAGES_DIR" \
     --ground-truth "$GT_DIR" \
     --output "$RESULTS_DIR/base_size_1024" \
     --base-size 1024 \
-    --limit 20 \
     --device cuda
 
 echo ""
