@@ -71,13 +71,13 @@ echo ""
 
 cd "$WORK_DIR"
 
-# Test with 5 images first
+# Test with 20 images (same as original test for comparison)
 python3 scripts/process_bl_newspapers_fixed.py \
     --images "$IMAGES_DIR" \
     --ground-truth "$GT_DIR" \
     --output "$RESULTS_DIR/base_size_1024" \
     --base-size 1024 \
-    --limit 5 \
+    --limit 20 \
     --device cuda
 
 echo ""
